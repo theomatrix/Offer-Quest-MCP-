@@ -2,6 +2,8 @@
 
 A fast, secure, and LLM-friendly Model Context Protocol (MCP) server that scrapes job listings from major platforms (LinkedIn, Indeed, Google) and converts them into structured Markdown format.
 
+[![Available on Glama](https://glama.ai/badge.svg)](https://glama.ai/mcp/connectors/space.hf.dexter3b-offerquest-mcp/offer-quest-mcp)
+
 ## Features
 
 - **Blazing Fast API Scraping:** Uses `python-jobspy` to pull latest jobs instantly without heavy browser automation overhead.
