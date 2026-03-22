@@ -1,8 +1,8 @@
 # OfferQuest MCP Server (`mcp_j.py`)
 
-A fast, secure, and LLM-friendly Model Context Protocol (MCP) server that scrapes job listings from major platforms (LinkedIn, Indeed, Google) and converts them into structured Markdown format.
+[![Available on Glama](https://img.shields.io/badge/Available%20on-Glama-black.svg)](https://glama.ai/mcp/connectors/space.hf.dexter3b-offerquest-mcp/offer-quest-mcp)
 
-[![Available on Glama](https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/light/glama.png)](https://glama.ai/mcp/connectors/space.hf.dexter3b-offerquest-mcp/offer-quest-mcp)
+A fast, secure, and LLM-friendly Model Context Protocol (MCP) server that scrapes job listings from major platforms (LinkedIn, Indeed, Google) and converts them into structured Markdown format.
 
 ## Features
 
