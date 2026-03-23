@@ -213,39 +213,5 @@ demo = gr.Interface(
     description="Fetches live job postings and returns LLM-ready Markdown. Default: last 48 hours.",
 )
 
-#intelligent server orchestration 
 if __name__ == "__main__":
-    import os
-    import sys
-    # Check if the environment explicitly requests Stdio (terminal) mode.
-    if os.getenv("GRADIO_MCP_TRANSPORT") == "stdio":
-        print("🚀 OfferQuest: Starting in Stdio mode (Terminal)...", file=sys.stderr)
-        from mcp.server.fastmcp import FastMCP
-
-        mcp_server = FastMCP("OfferQuest")
-
-        @mcp_server.tool()
-        def search_jobs(
-            job_titles: str,
-            locations: str,
-            country: str = "India",
-            max_results: int = 5,
-            hours_old: int = 48,
-        ) -> str:
-            """Search for the latest jobs and internships and return them as a structured,
-            LLM-ready Markdown report. Supports multiple titles and locations.
-
-            Args:
-                job_titles: The roles you are looking for (e.g., 'Python Developer Intern').
-                locations: Cities or locations (e.g., 'Delhi, Remote').
-                country: The target country for the search.
-                max_results: Number of jobs to fetch per source per combo (1-10).
-                hours_old: Only show jobs posted within this many hours (default 48, max 168).
-            """
-            return fetch_and_format_jobs(job_titles, locations, country, max_results, hours_old)
-
-        mcp_server.run(transport="stdio")
-    else:
-        # This starts the full Web UI + the SSE MCP endpoint.
-        print("🌐 OfferQuest: Starting in Web/SSE mode...", file=sys.stderr)
-        demo.launch(mcp_server=True)
+    demo.launch(mcp_server=True)
