@@ -213,10 +213,10 @@ demo = gr.Interface(
     description="Fetches live job postings and returns LLM-ready Markdown. Default: last 48 hours.",
 )
 
-
+#intelligent server orchestration 
 if __name__ == "__main__":
     import os
-    
+    import sys
     # Check if the environment explicitly requests Stdio (terminal) mode.
     if os.getenv("GRADIO_MCP_TRANSPORT") == "stdio":
         print("🚀 OfferQuest: Starting in Stdio mode (Terminal)...", file=sys.stderr)
