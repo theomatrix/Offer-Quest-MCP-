@@ -212,6 +212,14 @@ demo = gr.Interface(
     title="OfferQuest MCP Server",
     description="Fetches live job postings and returns LLM-ready Markdown. Default: last 48 hours.",
 )
-
 if __name__ == "__main__":
-    demo.launch(mcp_server=True)
+    import os
+    
+    # Check if the environment explicitly requests Stdio (terminal) mode.
+    if os.getenv("GRADIO_MCP_TRANSPORT") == "stdio":
+        print("🚀 OfferQuest: Starting in Stdio mode (Terminal)...", file=sys.stderr)
+        demo.mcp.run() 
+    else:
+        # This starts the full Web UI + the SSE MCP endpoint.
+        print("🌐 OfferQuest: Starting in Web/SSE mode...", file=sys.stderr)
+        demo.launch()
