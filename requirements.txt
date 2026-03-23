@@ -2,3 +2,4 @@ gradio
 python-jobspy
 pandas
 mcp[cli]
+fastmcp
