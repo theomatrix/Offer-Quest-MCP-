@@ -1,0 +1,545 @@
+{
+  "name": "offerquest-live",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -1360,
+        -608
+      ],
+      "id": "7660474e-35e3-4489-94ff-e629359804a0",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "model": "kimi-k2.5:cloud",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        -1120,
+        -448
+      ],
+      "id": "f8ca4cb5-9dbe-4250-9271-5234bf9290bb",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "LtQ8oUhkIQ5wRzbN",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "362b4cbe-aca6-454e-8ea0-99c3e7b01bb0",
+              "name": "chatInput",
+              "value": "It's time for the morning job scout. Use the OfferQuest tool to search for 'Python Developer' and 'AI Intern' roles in 'Delhi' , 'Gurgaon' and 'Noida' posted within 48hrs.  Compare the results to my profile and summarize the top 5 most relevant ones for a telegram update and also include a direct link to apply .",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1152,
+        -656
+      ],
+      "id": "2bc0752e-13a8-48ce-bcf5-0d5bf32ab13a",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "endpointUrl": "https://dexter3b-offerquest-mcp.hf.space/gradio_api/mcp/",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        -800,
+        -384
+      ],
+      "id": "e78d14d0-08c0-4097-a7af-29b0b9b70647",
+      "name": "MCP Client1"
+    },
+    {
+      "parameters": {
+        "textSplittingMode": "custom",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        464,
+        -576
+      ],
+      "id": "28a54706-7386-4919-b619-2b14025c9e81",
+      "name": "Default Data Loader1"
+    },
+    {
+      "parameters": {
+        "model": "embeddinggemma:300m-qat-q4_0"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        304,
+        -576
+      ],
+      "id": "b487e6e9-0d8c-46ee-8f74-c4682e43fb9a",
+      "name": "Embeddings Ollama",
+      "credentials": {
+        "ollamaApi": {
+          "id": "LtQ8oUhkIQ5wRzbN",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chunkOverlap": 100,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        464,
+        -432
+      ],
+      "id": "87298694-e98a-40b1-9d10-dd1b02520707",
+      "name": "Recursive Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "ragdoc-768",
+          "mode": "list",
+          "cachedResultName": "ragdoc-768"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        368,
+        -768
+      ],
+      "id": "bab951f6-44ba-4988-8c11-60ba027438e6",
+      "name": "Pinecone Vector Store",
+      "credentials": {
+        "pineconeApi": {
+          "id": "YYZ2q27E9RCr8uFQ",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "upload your resume here ",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "resume/cv",
+              "fieldType": "file"
+            }
+          ]
+        },
+        "options": {
+          "buttonLabel": "Submit"
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        192,
+        -768
+      ],
+      "id": "492242fd-c0cf-44fe-b35a-b8f1b6cf6ff5",
+      "name": "On form submission",
+      "webhookId": "2b769087-f51f-4058-89bc-fd5530abcda1"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "\"Use this tool to retrieve technical evidence, project details, and professional experience from the user's resume and project documentation to compare against job requirements.\"",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "ragdoc-768",
+          "mode": "list",
+          "cachedResultName": "ragdoc-768"
+        },
+        "topK": 7,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        -240,
+        -416
+      ],
+      "id": "017f06fe-ce5c-451a-925a-dd136ce4e1ac",
+      "name": "Pinecone Vector Store1",
+      "credentials": {
+        "pineconeApi": {
+          "id": "YYZ2q27E9RCr8uFQ",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "embeddinggemma:300m-qat-q4_0"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        -240
+      ],
+      "id": "4fc402e9-6020-4867-963d-db2302d5a10c",
+      "name": "Embeddings Ollama1",
+      "credentials": {
+        "ollamaApi": {
+          "id": "LtQ8oUhkIQ5wRzbN",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $workflow.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -944,
+        -400
+      ],
+      "id": "9a6d9035-4f0f-429d-9c50-9277b1d83589",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Send a text message in Telegram.",
+        "chatId": "2112349925",
+        "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Text', ``, 'string') }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTool",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        -544
+      ],
+      "id": "e57a29f7-c1c1-4d92-84c5-8cbd9ee32049",
+      "name": "Send a text message in Telegram",
+      "webhookId": "2a5216f4-2303-479e-a128-507ca00a7ed4",
+      "credentials": {
+        "telegramApi": {
+          "id": "NA2J2YW22mGmvPEo",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d3e85070-1c63-4768-8f7f-3f45e0d7995c",
+              "name": "output",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -592,
+        -704
+      ],
+      "id": "f8185eac-6222-4d5b-b28c-7bdc151bbf90",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $workflow.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -368,
+        -496
+      ],
+      "id": "c80a2d2c-0fde-4e07-a38d-fbfdfc464602",
+      "name": "Simple Memory1"
+    },
+    {
+      "parameters": {
+        "model": "minimax-m2.5:cloud",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        -512,
+        -432
+      ],
+      "id": "f23cfdbe-2a1f-4966-b4b8-31c02605f89a",
+      "name": "Ollama Chat Model1",
+      "credentials": {
+        "ollamaApi": {
+          "id": "LtQ8oUhkIQ5wRzbN",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": " you are a professional Career Consultant. You are concise, focus on technical stack matches, and always look for roles that mention Python, C++, or LLMs.\n\nand forward a well drafted job with all details to next node."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -896,
+        -704
+      ],
+      "id": "3de57127-14f3-4e8b-aa78-b82effc0a40a",
+      "name": "job/inetship search",
+      "alwaysOutputData": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.output }}",
+        "options": {
+          "systemMessage": "You're a job/intership consultant expert and use chatinput data of jobs and compare it against resume in 'pinecone vector store ' and rank the jobs based on similarity to resume and score them(0-100).\nthen draft a clean message to be sent on telegram and report the user about your findings and also include \naplply link."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -368,
+        -704
+      ],
+      "id": "3d3a2cd0-7bc8-475e-8bd2-dbd0884ca7e7",
+      "name": "RAG matching -> telegram"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "job/inetship search",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "job/inetship search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MCP Client1": {
+      "ai_tool": [
+        [
+          {
+            "node": "job/inetship search",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader1": {
+      "ai_document": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader1",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store1": {
+      "ai_tool": [
+        [
+          {
+            "node": "RAG matching -> telegram",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "job/inetship search",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message in Telegram": {
+      "ai_tool": [
+        [
+          {
+            "node": "RAG matching -> telegram",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "RAG matching -> telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "RAG matching -> telegram",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "RAG matching -> telegram",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "job/inetship search": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "d52e3d1a-6800-40be-ab94-af0977d56447",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1f6f4cb686e4468d68d3d7f1b9ab550215fc63d774a06d70c12f9ac3cc297a14"
+  },
+  "id": "3YIIIO4yvok6GbrM",
+  "tags": []
+}
