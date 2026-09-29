@@ -1,5 +1,7 @@
 # OfferQuest MCP Server (`mcp_j.py`)
 
+[![offer-quest mcp MCP connector – tool definition quality and endpoint health on Glama](https://glama.ai/mcp/connectors/space.hf.dexter3b-offerquest-mcp/offer-quest-mcp/badges/score.svg)](https://glama.ai/mcp/connectors/space.hf.dexter3b-offerquest-mcp/offer-quest-mcp)
+
 [![Available on Glama](https://img.shields.io/badge/Available%20on-Glama-black.svg)](https://glama.ai/mcp/connectors/space.hf.dexter3b-offerquest-mcp/offer-quest-mcp)
 
 A fast, secure, and LLM-friendly Model Context Protocol (MCP) server that scrapes job listings from major platforms (LinkedIn, Indeed, Google) and converts them into structured Markdown format.
