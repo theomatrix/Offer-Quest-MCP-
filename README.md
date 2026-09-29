@@ -1,13 +1,3 @@
----
-title: OfferQuest MCP
-emoji: 🎯
-colorFrom: indigo
-colorTo: purple
-sdk: gradio
-app_file: app.py
-pinned: false
----
-
 # OfferQuest MCP Server
 
 [![offer-quest mcp MCP connector – tool definition quality and endpoint health on Glama](https://glama.ai/mcp/connectors/space.hf.dexter3b-offerquest-mcp/offer-quest-mcp/badges/score.svg)](https://glama.ai/mcp/connectors/space.hf.dexter3b-offerquest-mcp/offer-quest-mcp)
