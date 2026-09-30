@@ -2,6 +2,9 @@
 
 [![offer-quest mcp MCP connector – tool definition quality and endpoint health on Glama](https://glama.ai/mcp/connectors/space.hf.dexter3b-offerquest-mcp/offer-quest-mcp/badges/score.svg)](https://glama.ai/mcp/connectors/space.hf.dexter3b-offerquest-mcp/offer-quest-mcp)
 
+[![Open Source Helpers](https://www.codetriage.com/theomatrix/offer-quest-mcp-/badges/users.svg)](https://www.codetriage.com/theomatrix/offer-quest-mcp-)
+
+
 [![Available on Glama](https://img.shields.io/badge/Available%20on-Glama-black.svg)](https://glama.ai/mcp/connectors/space.hf.dexter3b-offerquest-mcp/offer-quest-mcp)
 
 [![offer-quest mcp MCP server](https://glama.ai/mcp/servers/theomatrix/Offer-Quest-MCP-/badges/card.svg)](https://glama.ai/mcp/servers/theomatrix/Offer-Quest-MCP-)
